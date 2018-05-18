@@ -58,6 +58,12 @@
                     Calculatetime()
                 End If
             End If
+            If active(0) = False Then
+                calculatevelocity()
+            End If
+            If active(1) = False Then
+                Calculateinitialvelocity()
+            End If
             For i As Integer = 0 To 5
                 If active(i) = False Then
                     done = True
@@ -65,18 +71,38 @@
             Next
         End While
     End Sub
+    Private Sub Calculatevelocity()
+        If active(1) = True And active(5) = True And active(2) = True Then
+            data(0) = data(1) + data(2) * data(5)
+            active(0) = True
+        ElseIf active(1) = True And active(2) = True And active(3) = True And active(4) = True Then
+            data(0) = Math.Sqrt(data(1) * data(1) + (2 * data(2) * (data(3) - data(4))))
+            active(0) = True
+        End If
+    End Sub
+    Private Sub Calculateinitialvelocity()
+        If active(0) = True And active(2) = True And active(5) = True Then
+            data(1) = data(0) - data(2) * data(5)
+            active(1) = True
+        ElseIf active(0) = True And active(2) = True And active(3) = True And active(4) = True Then
+            data(1) = Math.Sqrt(data(0) * data(0) - (2 * data(2) * (data(3) - data(4))))
+            active(1) = True
+        End If
+    End Sub
     Private Sub Calculatex()
         If active(0) = False And active(4) = True And active(2) = True And active(5) = True Or active(4) = True And active(2) = True And active(5) = True Then
-            data(3) = data(4) + (data(2) * data(5)) + (0.5 * data(2) * data(5) * data(5))
+            data(3) = data(4) + (data(1) * data(5)) + (0.5 * data(2) * data(5) * data(5))
             active(3) = True
         ElseIf active(5) = False And active(0) = True And active(1) = True And active(2) = True And active(4) = True Then
             data(3) = ((data(0) * data(0) - data(1) * data(1)) * 0.5) / data(2) + data(4)
+            active(3) = True
         End If
     End Sub
     Private Sub Calculatetime()
-        active(5) = True
-        data(5) = (data(0) - data(1)) / data(2)
-        MsgBox(data(5))
+        If active(0) = True And active(1) = True And active(2) = True Then
+            active(5) = True
+            data(5) = (data(0) - data(1)) / data(2)
+        End If
     End Sub
     Private Sub Output()
         velocitylabel.Text = data(0)
