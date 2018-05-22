@@ -3,10 +3,12 @@
     Dim data(5) As String
     Dim empty As Boolean = True
     Dim done As Boolean = True
+    Dim times As Integer = 0
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Checkboxes()
         RunCalculations()
         Output()
+        times = 0
     End Sub
     Public Sub Checkboxes()
         For i As Integer = 0 To 5
@@ -54,9 +56,13 @@
                 Calculatex()
             End If
             If active(5) = False Then
-                If active(0) = True And active(1) = True And active(2) = True Then
-                    Calculatetime()
-                End If
+                Calculatetime()
+            End If
+            If active(4) = False Then
+                Calculateinitialx()
+            End If
+            If active(2) = False Then
+                calculateacceleration()
             End If
             If active(0) = False Then
                 calculatevelocity()
@@ -69,7 +75,24 @@
                     done = True
                 End If
             Next
+            times += 1
+            If times > 30 Then
+                MsgBox("Error, I cannot calculate that with the data entered.")
+                done = False
+            End If
         End While
+    End Sub
+    Private Sub Calculateacceleration()
+        If active(0) = True And active(1) = True And active(5) = True Then
+            data(2) = (data(0) - data(1)) / data(5)
+            active(2) = True
+        ElseIf active(1) = True And active(3) = True And active(4) = True And active(5) = True Then
+            data(2) = ((data(3) - data(4) - (data(1) * data(5))) / (data(5) * data(5)))
+            active(2) = True
+        ElseIf active(0) = True And active(1) = True And active(3) = True And active(4) = True Then
+            data(2) = (((data(0) * data(0)) - (data(1) * data(1))) / (2 * (data(3) - data(4))))
+            active(2) = True
+        End If
     End Sub
     Private Sub Calculatevelocity()
         If active(1) = True And active(5) = True And active(2) = True Then
@@ -78,6 +101,15 @@
         ElseIf active(1) = True And active(2) = True And active(3) = True And active(4) = True Then
             data(0) = Math.Sqrt(data(1) * data(1) + (2 * data(2) * (data(3) - data(4))))
             active(0) = True
+        End If
+    End Sub
+    Private Sub Calculateinitialx()
+        If active(3) = True And active(1) = True And active(5) = True And active(2) = True Then
+            data(4) = data(3) - (data(1) * data(5)) + (0.5 * data(5) * data(5) * data(2))
+            active(4) = True
+        ElseIf active(0) = True And active(1) = True And active(2) = True And active(3) = True Then
+            data(4) = (((data(0) * data(0)) - (data(1) * data(1))) / (2 * data(2)))
+            active(4) = True
         End If
     End Sub
     Private Sub Calculateinitialvelocity()
