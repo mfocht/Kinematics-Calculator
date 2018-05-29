@@ -136,9 +136,12 @@
         End If
     End Sub
     Private Sub Calculatetime()
-        If active(0) = True And active(1) = True And active(2) = True Then
+        If active(0) = True And active(1) = True And active(2) = True And data(2) <> 0 Then
             active(5) = True
             data(5) = (data(0) - data(1)) / data(2)
+        ElseIf active(1) = True And active(3) = True And active(4) = True And data(2) = 0 Then
+            data(5) = (data(3) - data(4)) / data(1)
+            active(5) = True
         End If
     End Sub
     Private Sub Output()
@@ -149,7 +152,6 @@
         xinitiallabel.Text = data(4)
         timelabel.Text = data(5)
     End Sub
-
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Form2.Show()
         Me.Hide()

@@ -231,12 +231,18 @@ Public Class Form2
         End If
     End Sub
     Private Sub Calculatetime()
-        If active2(0) = True And active2(1) = True And active2(2) = True Then
+        If active2(0) = True And active2(1) = True And active2(2) = True And data2(2) <> 0 Then
             active2(5) = True
             data2(5) = (data2(0) - data2(1)) / data2(2)
-        ElseIf active2(6) = True And active2(7) = True And active2(8) = True Then
+        ElseIf active2(6) = True And active2(7) = True And active2(8) = True And data2(8) <> 0 Then
             active2(5) = True
             data2(5) = (data2(6) - data2(7)) / data2(8)
+        ElseIf active2(1) = True And active2(3) = True And active2(4) = True And data2(2) = 0 Then
+            data2(5) = (data2(3) - data2(4)) / data2(1)
+            active2(5) = True
+        ElseIf active2(7) = True And active2(9) = True And active2(10) = True And data2(8) = 0 Then
+            data2(5) = (data2(9) - data2(10)) / data2(7)
+            active2(5) = True
         End If
     End Sub
     Private Sub Output()
