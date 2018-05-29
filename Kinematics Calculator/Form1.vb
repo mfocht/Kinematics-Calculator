@@ -6,6 +6,7 @@
     Dim times As Integer = 0
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Checkboxes()
+        done = True
         RunCalculations()
         Output()
         times = 0
@@ -62,10 +63,10 @@
                 Calculateinitialx()
             End If
             If active(2) = False Then
-                calculateacceleration()
+                Calculateacceleration()
             End If
             If active(0) = False Then
-                calculatevelocity()
+                Calculatevelocity()
             End If
             If active(1) = False Then
                 Calculateinitialvelocity()
@@ -79,6 +80,10 @@
             If times > 30 Then
                 MsgBox("Error, I cannot calculate that with the data entered.")
                 done = False
+                times = 0
+                For i As Integer = 0 To 5
+                    active(i) = False
+                Next
             End If
         End While
     End Sub
@@ -122,7 +127,7 @@
         End If
     End Sub
     Private Sub Calculatex()
-        If active(0) = False And active(4) = True And active(2) = True And active(5) = True Or active(4) = True And active(2) = True And active(5) = True Then
+        If active(0) = False And active(4) = True And active(1) = True And active(2) = True And active(5) = True Or active(1) = True And active(4) = True And active(2) = True And active(5) = True Then
             data(3) = data(4) + (data(1) * data(5)) + (0.5 * data(2) * data(5) * data(5))
             active(3) = True
         ElseIf active(5) = False And active(0) = True And active(1) = True And active(2) = True And active(4) = True Then
@@ -143,5 +148,10 @@
         xlabel.Text = data(3)
         xinitiallabel.Text = data(4)
         timelabel.Text = data(5)
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Form2.Show()
+        Me.Hide()
     End Sub
 End Class
